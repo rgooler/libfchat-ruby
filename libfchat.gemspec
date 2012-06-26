@@ -15,12 +15,12 @@ Gem::Specification.new do |s|
   s.email           = 'cheetahmorph@gmail.com'
   s.files           = Dir.glob('lib/libfchat/*.rb')
   s.test_files      = Dir.glob('test/*_test.rb')
-  s.homepage        = 'http://rubygems.org/gems/libfchat'
+  s.homepage        = 'http://github.com/jippen/libfchat'
   s.license         = 'MIT'
   s.require_path    = 'lib'
 
-  spec.add_development_dependency 'turn', '>= 0.9'
-  spec.add_development_dependency 'miniunit', '>= 1.2'
+  s.add_development_dependency 'turn', '~> 0.9.5'
+  s.add_development_dependency 'miniunit', '~> 1.2.1'
 
-  spec.add_runtime_dependency 'multi_json', '~> 1.3.6'
+  s.add_runtime_dependency 'multi_json', '~> 1.3.6'
 end
