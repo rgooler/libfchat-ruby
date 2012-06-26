@@ -22,5 +22,9 @@ Gem::Specification.new do |s|
   spec.add_development_dependency 'turn', '>= 0.9'
   spec.add_development_dependency 'miniunit', '>= 1.2'
 
-  spec.add_runtime_dependency 'json', '>= 1.7'
+  if defined?(JRUBY_VERSION)
+      spec.add_runtime_dependency 'json-jruby', '>= 1.4'
+  else
+      spec.add_runtime_dependency 'json', '>= 1.7'
+  end
 end
