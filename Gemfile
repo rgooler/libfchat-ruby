@@ -6,4 +6,5 @@ group :test do
     gem 'rake'
     gem 'turn', '~> 0.9.5'
     gem 'minitest'
+    gem 'facets'
 end
