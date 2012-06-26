@@ -8,6 +8,8 @@ require 'libfchat/version'
 
 task :default => :test
 
+task :test => [:test_webapi]
+
 desc "build gem package"
 task :build do
     sh 'gem build libfchat.gemspec'
@@ -20,8 +22,8 @@ task :release => :build do
     system "gem push pkg/libfchat-#{Libfchat::VERSION}"
 end
 
-Rake::TestTask.new do |t|
+Rake::TestTask.new(:test_webapi) do |t|
   t.libs << "test"
-  t.test_files = FileList['test/*_test.rb']
+  t.test_files = FileList['test/webapi_test.rb']
   t.verbose = true
 end
