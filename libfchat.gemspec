@@ -8,7 +8,6 @@ Gem::Specification.new do |s|
   s.name            = 'libfchat'
   s.version         = Libfchat::VERSION
   s.date            = '2012-06-25'
-  s.platform        = Gem::Platform::RUBY
   s.summary         = "A library for connection to F-chat"
   s.description     = "A library for connecting to F-chat ( http://f-list.net )"
   s.authors         = ["Ryan Gooler"]
@@ -19,8 +18,7 @@ Gem::Specification.new do |s|
   s.license         = 'MIT'
   s.require_path    = 'lib'
 
-  s.add_development_dependency 'turn', '~> 0.9.5'
-  s.add_development_dependency 'miniunit', '~> 1.2.1'
-
-  s.add_runtime_dependency 'multi_json', '~> 1.3.6'
+  s.add_development_dependency('turn','~> 0.9.5')
+  s.add_development_dependency('miniunit','~> 1.2.1')
+  s.add_runtime_dependency('multi_json','~> 1.3.6')
 end
