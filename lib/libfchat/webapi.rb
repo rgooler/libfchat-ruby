@@ -5,7 +5,7 @@ module Libfchat
     #I don't actually NEED rubygems, unless on 1.8
   end
   require 'net/http'
-  require 'json'
+  require 'multi_json'
   
   class WebAPI
     attr_reader :ticket
@@ -16,7 +16,7 @@ module Libfchat
                                 'account' => account,
                                 'password' => password)
 
-      json = JSON.parse(res.body)
+      json = MultiJson.load(res.body)
       if json['ticket']
         @ticket = json['ticket']
       end
