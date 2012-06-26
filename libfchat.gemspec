@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.email           = 'cheetahmorph@gmail.com'
   s.files           = Dir.glob('lib/libfchat/*.rb')
   s.test_files      = Dir.glob('test/*_test.rb')
-  s.homepage        = 'http://github.com/jippen/libfchat'
+  s.homepage        = 'http://github.com/jippen/libfchat-ruby'
   s.license         = 'MIT'
   s.require_path    = 'lib'
 

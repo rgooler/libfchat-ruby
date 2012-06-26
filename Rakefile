@@ -18,7 +18,7 @@ end
 desc "Release new version of gem"
 task :release => :build do
     sh "git tag -a v#{Libfchat::VERSION} -m 'Release #{Libfchat::VERSION}'"
-    system "gem push libfchat-#{Libfchat::VERSION}"
+    system "gem push libfchat-#{Libfchat::VERSION}.gem"
     sh 'mv *.gem pkg/'
 end
 
