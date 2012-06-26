@@ -18,4 +18,9 @@ Gem::Specification.new do |s|
   s.homepage        = 'http://rubygems.org/gems/libfchat'
   s.license         = 'MIT'
   s.require_path    = 'lib'
+
+  spec.add_development_dependency 'turn', '>= 0.9'
+  spec.add_development_dependency 'miniunit', '>= 1.2'
+
+  spec.add_runtime_dependency 'json', '>= 1.7'
 end

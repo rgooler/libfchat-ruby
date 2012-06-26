@@ -19,7 +19,7 @@ class TestWebAPI < Test::Unit::TestCase
 
   def test_bad_password_gives_error
     j = Libfchat::WebAPI.new
-    ticket = j.get_ticket('jippen','')
+    ticket = j.get_ticket('jippenbots','')
     assert_equal 'Password mismatch.', ticket['error']
   end
 
