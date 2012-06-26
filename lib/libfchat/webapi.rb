@@ -1,4 +1,9 @@
 module Libfchat
+  begin
+    require 'rubygems'
+  rescue LoadError
+    #I don't actually NEED rubygems, unless on 1.8
+  end
   require 'net/http'
   require 'json'
   
