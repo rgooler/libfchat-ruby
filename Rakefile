@@ -8,7 +8,7 @@ require 'libfchat/version'
 
 task :default => :test
 
-task :test => [:test_webapi]
+task :test => [:test_all]
 
 desc "build gem package"
 task :build do
@@ -22,8 +22,8 @@ task :release => :build do
     sh 'mv *.gem pkg/'
 end
 
-Rake::TestTask.new(:test_webapi) do |t|
+Rake::TestTask.new(:test_all) do |t|
   t.libs << "test"
-  t.test_files = FileList['test/webapi_test.rb']
+  t.test_files = FileList['test/webapi_test.rb','test/fchat_test.rb']
   t.verbose = true
 end

@@ -21,4 +21,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency('turn','~> 0.9.5')
   s.add_development_dependency('miniunit','~> 1.2.1')
   s.add_runtime_dependency('multi_json','~> 1.3.6')
+  s.add_runtime_dependency('em-http-request','~> 1.0.2')
 end
