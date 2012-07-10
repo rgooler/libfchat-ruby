@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 gem 'multi_json','~> 1.3.6'
-gem 'em-http-request', '~> 1.0.2'
+gem 'faye-websocket', '~> 0.4.6'
 
 group :test do
     gem 'rake'
