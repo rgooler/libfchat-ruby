@@ -67,7 +67,7 @@ module Libfchat
           rescue
             data = MultiJson.load('{}')
           end
-          puts "<< [#{type}] #{data}"
+          puts "<< [#{type}] #{MultiJson.dump(data)}"
           begin
             self.send("got_#{type}",data)
           rescue
