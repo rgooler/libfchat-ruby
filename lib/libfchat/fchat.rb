@@ -19,6 +19,13 @@ module Libfchat
     attr_reader :version
     attr_reader :clientname
 
+    attr_reader :chat_max
+    attr_reader :priv_max
+    attr_reader :lfrp_max
+    attr_reader :lfrp_flood
+    attr_reader :msg_flood
+    attr_reader :permissions
+
     ##
     # Initialize the object with the name and version. 
     # Default to just identifying as the library
@@ -86,7 +93,7 @@ module Libfchat
     end
 
     # ====================================================== #
-    #               Always respond to pings                  #
+    #               Always respond to these                  #
     # ====================================================== #
     
     ##
@@ -94,6 +101,27 @@ module Libfchat
     def got_PIN(message)
       self.send('PIN')
     end
+
+    ##
+    # Store server-side variables
+    def got_VAR(message)
+      if message['variable'] == 'chat_max'
+        @chat_max = message['value']
+      elsif message['variable'] == 'priv_max'
+        @priv_max = message['value']
+      elsif message['variable'] == 'lfrp_max'
+        @lfrp_max = message['value']
+      elsif message['variable'] == 'lfrp_flood'
+        @lfrp_flood = message['value']
+      elsif message['variable'] == 'msg_flood'
+        @msg_max = message['value']
+      elsif message['variable'] == 'permissions'
+        @permissions = message['value']
+      else
+        puts "ERROR: Do not know how to handle VAR #{message}"
+      end
+    end
+    
 
     # ====================================================== #
     # All commands that can be sent by a client have helpers #
