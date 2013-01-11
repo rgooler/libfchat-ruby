@@ -26,6 +26,11 @@ module Libfchat
     attr_reader :msg_flood
     attr_reader :permissions
 
+    attr_accessor :friends
+    attr_accessor :ignore
+    attr_accessor :ops
+    attr_accessor :users
+
     ##
     # Initialize the object with the name and version. 
     # Default to just identifying as the library
@@ -33,6 +38,7 @@ module Libfchat
     def initialize(clientname="libfchat-ruby by Jippen Faddoul ( http://github.com/jippen/libfchat-ruby )",version=Libfchat::VERSION)
       @clientname = clientname
       @version = version
+      @users = Hash.new
     end
 
     ##
@@ -122,7 +128,62 @@ module Libfchat
       end
     end
     
+    ##
+    # Store list of ops
+    def got_ADL(message)
+      @ops = message['ops']
+    end
 
+    ##
+    # Store list of friends
+    def got_FRL(message)
+      @friends = message['characters']
+    end
+
+    ##
+    # Store list of ignored users
+    def got_IGN(message)
+      @ops = message['characters']
+    end
+
+    ##
+    # Store list of online users
+    def got_LIS(message)
+      message['characters'].each do |character|
+        @users[character[0]] = {
+          'gender'  => character[1],
+          'status'  => character[2],
+          'message' => character[3]
+        }
+      end
+    end
+
+    ##
+    # Handle user logging on
+    def got_NLN(message)
+      @users[message['identity']] = {
+          'gender'  => message['gender'],
+          'status'  => message['status'],
+          'message' => ""
+        }
+    end
+ 
+    ##
+    # Handle user changing status
+    def got_STA(message)
+      @users[message['character']] = {
+          'gender'  => @users[message['character']]['gender'],
+          'status'  => message['status'],
+          'message' => message['statusmsg']
+        }
+    end
+ 
+    ##
+    # Handle user logging off
+    def got_FLN(message)
+      @users.delete(message['character'])
+    end
+ 
     # ====================================================== #
     # All commands that can be sent by a client have helpers #
     # ====================================================== #
