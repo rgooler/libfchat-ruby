@@ -30,6 +30,7 @@ module Libfchat
     attr_accessor :ignore
     attr_accessor :ops
     attr_accessor :users
+    attr_accessor :rooms
 
     ##
     # Initialize the object with the name and version. 
@@ -39,6 +40,7 @@ module Libfchat
       @clientname = clientname
       @version = version
       @users = Hash.new
+      @rooms = Hash.new
     end
 
     ##
@@ -182,8 +184,62 @@ module Libfchat
     # Handle user logging off
     def got_FLN(message)
       @users.delete(message['character'])
+      @rooms.each do |room|
+        room['characters'].delete(message['character'])
+      end
     end
  
+    ##
+    # Store data about newly joined chatroom
+    def got_JCH(message)
+      begin
+        @rooms[message['channel']]['characters'].push(message['character']['identity'])
+        puts "Someone else joined a room"
+      rescue
+        @rooms[message['channel']] = {
+          'title'       => message['title'],
+          'description' => '',
+          'characters'  => [],
+          'ops'         => [],
+        }
+        puts "I joined a new room"
+      end
+    end
+
+    ##
+    # Store ops list for room
+    def got_COL(message)
+      @rooms[message['channel']]['ops'] = message['oplist']
+    end
+
+    ##
+    # Store userlist for newly joined chatroom
+    def got_ICH(message)
+      message['users'].each do |user|
+        @rooms[message['channel']]['characters'].push(user['identity'])
+      end
+    end
+
+    ##
+    # Handle user joining chatroom
+    def got_LCH(message)
+      @rooms[message['channel']]['characters'].delete(message['character'])
+    end
+
+    ##
+    # Handle user leaving chatroom
+    def got_LCH(message)
+      @rooms[message['channel']]['characters'].delete(message['character'])
+    end
+
+    ##
+    # Store description for newly joined chatroom
+    def got_CDS(message)
+      @rooms[message['channel']]['description'] = message['description']
+    end
+
+    ##
+    ##
     # ====================================================== #
     # All commands that can be sent by a client have helpers #
     # ====================================================== #
