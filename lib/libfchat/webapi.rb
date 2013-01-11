@@ -19,6 +19,8 @@ module Libfchat
       json = MultiJson.load(res.body)
       if json['ticket']
         @ticket = json['ticket']
+      else
+        raise json['error']
       end
       return json
     end

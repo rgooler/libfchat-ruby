@@ -13,6 +13,7 @@ module Libfchat
   require 'libfchat/webapi'
   
   class Fchat
+    attr_accessor :spam
     attr_reader :ticket
     attr_accessor :websocket
 
@@ -50,9 +51,30 @@ module Libfchat
     def method_missing(method_name, *args, &block)
       # Try to handle all three-letter strings
       if method_name.to_s[4,7] =~ /[A-Z]{3}/
-        #puts "Dunno how to handle #{method_name.to_s}"
+        return nil
       else
         super(method_name,*args,&block)
+      end
+    end
+
+    ##
+    # Parse message received from server
+    def parse_message(msg)
+      type = msg[0,3]
+      begin
+        data = MultiJson.load(msg[4..-1])
+      rescue
+        data = MultiJson.load('{}')
+      end
+
+      # Output if spamminess is enabled
+      if @spam
+        puts "<< #{msg}"
+      end
+
+      begin
+        self.send("got_#{type}",data)
+      rescue
       end
     end
 
@@ -76,17 +98,7 @@ module Libfchat
         end
 
         @websocket.onmessage = lambda do |event|
-          type = event.data[0,3]
-          begin
-            data = MultiJson.load(event.data[4..-1])
-          rescue
-            data = MultiJson.load('{}')
-          end
-          puts "<< [#{type}] #{MultiJson.dump(data)}"
-          begin
-            self.send("got_#{type}",data)
-          rescue
-          end
+          self.parse_message(event.data)
         end
       }
     end
@@ -96,7 +108,9 @@ module Libfchat
     def send_message(type,json)
       jsonstr = ::MultiJson.dump(json)
       msg = "#{type} #{jsonstr}"
-      puts ">> #{msg}"
+      if @spam
+        puts ">> #{msg}"
+      end
       @websocket.send(msg)
     end
 
@@ -126,7 +140,7 @@ module Libfchat
       elsif message['variable'] == 'permissions'
         @permissions = message['value']
       else
-        puts "ERROR: Do not know how to handle VAR #{message}"
+        raise "ERROR: Do not know how to handle VAR #{message}"
       end
     end
     
@@ -194,7 +208,6 @@ module Libfchat
     def got_JCH(message)
       begin
         @rooms[message['channel']]['characters'].push(message['character']['identity'])
-        puts "Someone else joined a room"
       rescue
         @rooms[message['channel']] = {
           'title'       => message['title'],
@@ -202,7 +215,6 @@ module Libfchat
           'characters'  => [],
           'ops'         => [],
         }
-        puts "I joined a new room"
       end
     end
 

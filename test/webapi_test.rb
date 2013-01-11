@@ -13,16 +13,16 @@ class TestWebAPI < Test::Unit::TestCase
 
   def test_no_credentials_gives_error
     j = Libfchat::WebAPI.new
-    ticket = j.get_ticket('','')
-    assert_not_nil ticket['error']
-    assert_not_equal '', ticket['error']
+    assert_raise(RuntimeError) do
+      j.get_ticket('','')
+    end
   end
 
   def test_bad_password_gives_error
     j = Libfchat::WebAPI.new
-    ticket = j.get_ticket('jippenbots','')
-    assert_not_nil ticket['error']
-    assert_not_equal '', ticket['error']
+    assert_raise(RuntimeError) do
+      j.get_ticket('jippenbots','')
+    end
   end
 
 end
