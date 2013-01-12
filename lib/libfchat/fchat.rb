@@ -42,6 +42,7 @@ module Libfchat
       @version = version
       @users = Hash.new
       @rooms = Hash.new
+      @spam = true
     end
 
     ##
@@ -90,7 +91,7 @@ module Libfchat
 
         @websocket.onopen = lambda do |event|
           #When we connect, log in
-          self.send('IDN',account,character,ticket)
+          self.IDN(account, character, ticket)
         end
 
         @websocket.onclose = lambda do |event|
@@ -105,11 +106,15 @@ module Libfchat
 
     ##
     # Generic message sender
-    def send_message(type,json)
+    def send_message(type, json)
       jsonstr = ::MultiJson.dump(json)
       msg = "#{type} #{jsonstr}"
       if @spam
-        puts ">> #{msg}"
+        if type == 'IDN'
+          json[:ticket] = '[REDACTED]'
+        end
+        filteredjsonstr = ::MultiJson.dump(json)
+        puts ">> #{type} #{filteredjsonstr}"
       end
       @websocket.send(msg)
     end
@@ -262,7 +267,7 @@ module Libfchat
     # *This command requires chat op or higher.*
     def ACB(character)
       json = {:character => character}
-      self.send('send_message','ACB',json)
+      self.send_message('ACB',json)
     end
 
     ##
@@ -271,7 +276,7 @@ module Libfchat
     # *This command is admin only.*
     def AOP(character)
       json = {:character => character}
-      self.send('send_message','AOP',json)
+      self.send_message('AOP',json)
     end
 
     ##
@@ -280,7 +285,7 @@ module Libfchat
     # *This command requires chat op or higher.*
     def AWC(character)
       json = {:character => character}
-      self.send('send_message','AWC',json)
+      self.send_message('AWC',json)
     end
 
     ##
@@ -288,7 +293,7 @@ module Libfchat
     # *This command is admin only.*
     def BRO(message)
       json = {:message => message}
-      self.send('send_message','AWC',json)
+      self.send_message('AWC',json)
     end
 
     ##
@@ -297,7 +302,7 @@ module Libfchat
     # *This command requires channel op or higher.*
     def CBL(channel)
       json = {:channel => channel}
-      self.send('send_message','CBL',json)
+      self.send_message('CBL',json)
     end
 
     ##
@@ -307,14 +312,14 @@ module Libfchat
     def CBU(channel,character)
       json = {:channel   => channel,
               :character => character}
-      self.send('send_message','CBU',json)
+      self.send_message('CBU',json)
     end
 
     ##
     # Create an Ad-hoc Channel
     def CCR(channel)
       json = {:channel => channel}
-      self.send('send_message','CCR',json)
+      self.send_message('CCR',json)
     end
 
     ##
@@ -324,13 +329,13 @@ module Libfchat
     # *This command requires channel op or higher.*
     def CCR(channel)
       json = {:channel => channel}
-      self.send('send_message','CCR',json)
+      self.send_message('CCR',json)
     end
 
     ##
     # Request a list of all public channels
     def CHA()
-      self.send('send_message','CHA',{})
+      self.send_message('CHA',{})
     end
 
     ##
@@ -338,7 +343,7 @@ module Libfchat
     def CIU(channel,character)
       json = {:channel   => channel,
               :character => character }
-      self.send('send_message','CIU',json)
+      self.send_message('CIU',json)
     end
 
     ##
@@ -348,7 +353,7 @@ module Libfchat
     def CKU(channel,character)
       json = {:channel   => channel,
               :character => character }
-      self.send('send_message','CKU',json)
+      self.send_message('CKU',json)
     end
 
     ##
@@ -358,14 +363,14 @@ module Libfchat
     def COA(channel,character)
       json = {:channel   => channel,
               :character => character }
-      self.send('send_message','COA',json)
+      self.send_message('COA',json)
     end
 
     ##
     # Request a list of channel ops
     def COA(channel)
       json = {:channel => channel }
-      self.send('send_message','CKU',json)
+      self.send_message('CKU',json)
     end
 
     ##
@@ -374,7 +379,7 @@ module Libfchat
     # *This command is admin only*
     def CRC(channel)
       json = {:channel => channel }
-      self.send('send_message','CRC',json)
+      self.send_message('CRC',json)
     end
 
     ##
@@ -384,7 +389,7 @@ module Libfchat
     def CUB(channel,character)
       json = {:channel   => channel,
               :character => character }
-      self.send('send_message','CUB',json)
+      self.send_message('CUB',json)
     end
 
     ##
@@ -393,7 +398,7 @@ module Libfchat
     # *This command is admin only*
     def DOP(character)
       json = { :character => character }
-      self.send('send_message','DOP',json)
+      self.send_message('DOP',json)
     end
 
     ##
@@ -401,7 +406,7 @@ module Libfchat
     def FKS(kink,genders)
       json = { :kink    => kink,
                :genders => genders }
-      self.send('send_message','FKS',json)
+      self.send_message('FKS',json)
     end
 
     ##
@@ -421,7 +426,7 @@ module Libfchat
               :cname     => cname,
               :cversion  => cversion,
               :method    => 'ticket'}
-      self.send('send_message','IDN',json)
+      self.send_message('IDN', json)
     end
 
     ##
@@ -434,7 +439,7 @@ module Libfchat
     def IGN(action,character)
       json = { :action    => action,
                :character => character }
-      self.send('send_message','IGN',json)
+      self.send_message('IGN',json)
     end
 
     ##
@@ -443,14 +448,14 @@ module Libfchat
     # *This command is admin only*
     def IPB(character)
       json = { :character => character }
-      self.send('send_message','IPB',json)
+      self.send_message('IPB',json)
     end
 
     ##
     # Send a channel join request
     def JCH(channel)
       json = { :channel => channel }
-      self.send('send_message','JCH',json)
+      self.send_message('JCH',json)
     end
 
     ##
@@ -459,21 +464,21 @@ module Libfchat
     # *This command requires channel op or higher*
     def KIK(character)
       json = {:character => character }
-      self.send('send_message','KIK',json)
+      self.send_message('KIK',json)
     end
 
     ##
     # Request a character's list of kinks
     def KIN(character)
       json = {:character => character }
-      self.send('send_message','KIN',json)
+      self.send_message('KIN',json)
     end
 
     ##
     # Leave a channel
     def LCH(channel)
       json = {:channel => channel }
-      self.send('send_message','LCH',json)
+      self.send_message('LCH',json)
     end
 
     ##
@@ -481,25 +486,25 @@ module Libfchat
     def MSG(channel,message)
       json = {:channel => channel,
               :message => message }
-      self.send('send_message','MSG',json)
+      self.send_message('MSG',json)
     end
 
     ##
     # List presence of ops in all rooms
     def OPP()
-      self.send('send_message','OPP',{})
+      self.send_message('OPP',{})
     end
 
     ##
     # Request a list of open private rooms
     def ORS()
-      self.send('send_message','ORS',{})
+      self.send_message('ORS',{})
     end
 
     ##
     # Respond to a ping request
     def PIN()
-      self.send('send_message','PIN',{})
+      self.send_message('PIN',{})
     end
 
     ##
@@ -507,14 +512,14 @@ module Libfchat
     def PRI(recipient,message)
       json = {:recipient => recipient,
               :message   => message }
-      self.send('send_message','PRI',json)
+      self.send_message('PRI',json)
     end
 
     ##
     # Do a profile request
     def PRO(character)
       json = {:character => character }
-      self.send('send_message','PRO',json)
+      self.send_message('PRO',json)
     end
 
     ##
@@ -522,7 +527,7 @@ module Libfchat
     # in the given channel
     def RAN(channel)
       json = {:channel => channel }
-      self.send('send_message','RAN',json)
+      self.send_message('RAN',json)
     end
 
     ##
@@ -530,7 +535,7 @@ module Libfchat
     def RLL(channel,dice)
       json = {:channel => channel,
               :dice    => dice }
-      self.send('send_message','RLL',json)
+      self.send_message('RLL',json)
     end
 
     ##
@@ -540,7 +545,7 @@ module Libfchat
     def RST(channel,status)
       json = {:channel   => channel,
               :status    => status }
-      self.send('send_message','RST',json)
+      self.send_message('RST',json)
     end
 
     ##
@@ -549,7 +554,7 @@ module Libfchat
     # *This command is admin only*
     def RWD(character)
       json = {:character => character }
-      self.send('send_message','RWD',json)
+      self.send_message('RWD',json)
     end
 
     ##
@@ -557,7 +562,7 @@ module Libfchat
     def STA(status,statusmsg)
       json = {:status    => status,
               :statusmsg => statusmsg }
-      self.send('send_message','STA',json)
+      self.send_message('STA',json)
     end
 
     ##
@@ -569,7 +574,7 @@ module Libfchat
       json = {:character => character,
               :time      => time,
               :reason    => reason }
-      self.send('send_message','TMO',json)
+      self.send_message('TMO',json)
     end
 
     ##
@@ -579,7 +584,7 @@ module Libfchat
     def TPN(character,status)
       json = {:character => character,
               :status    => status }
-      self.send('send_message','TPN',json)
+      self.send_message('TPN',json)
     end
 
     ##
@@ -588,7 +593,7 @@ module Libfchat
     # *This command requires chat op or higher*
     def UBN(character)
       json = {:character => character }
-      self.send('send_message','UBN',json)
+      self.send_message('UBN',json)
     end
 
   end #End of class
