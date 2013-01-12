@@ -141,7 +141,7 @@ module Libfchat
       elsif message['variable'] == 'lfrp_flood'
         @lfrp_flood = message['value']
       elsif message['variable'] == 'msg_flood'
-        @msg_max = message['value']
+        @msg_flood = message['value']
       elsif message['variable'] == 'permissions'
         @permissions = message['value']
       else

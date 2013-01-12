@@ -5,10 +5,18 @@ describe ::Libfchat::WebAPI do
     @webapi = ::Libfchat::WebAPI.new
   end
 
-  describe "#new" do
-    it "takes no paramiters and returns a WebAPI object" do
-      @webapi.should be_an_instance_of ::Libfchat::WebAPI
+  it "takes no paramiters and returns a WebAPI object" do
+    @webapi.should be_an_instance_of ::Libfchat::WebAPI
+  end
+
+  describe "badlogins:" do
+    it "raises an exception when it logs in without credentials" do
+      expect {@webapi.get_ticket('','')}.to raise_error
     end
+
+    it "raises an exception when it logs in with bad credentials" do
+      expect {@webapi.get_ticket('jippenbots','')}.to raise_error
+    end #badlogins
   end
 
 end
