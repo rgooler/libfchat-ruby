@@ -8,7 +8,7 @@ describe ::Libfchat::Fchat do
     @fchat.spam = false
   end
 
-  it "takes no paramiters and returns a Fchat object" do
+  it "takes no parameters and returns a Fchat object" do
     @fchat.should be_an_instance_of ::Libfchat::Fchat
   end
 
@@ -49,6 +49,11 @@ describe ::Libfchat::Fchat do
   end 
 
   describe "get_IDN" do
+    it "knows its own identity" do
+      data = 'IDN {"character":"Bottlebot"}'
+      @fchat.parse_message(data)
+      @fchat.me.should == 'Bottlebot'
+    end
   end
 
   describe "get_JCH" do

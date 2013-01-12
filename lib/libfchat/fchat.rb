@@ -19,7 +19,8 @@ module Libfchat
 
     attr_reader :version
     attr_reader :clientname
-
+    attr_reader :me
+    
     attr_reader :chat_max
     attr_reader :priv_max
     attr_reader :lfrp_max
@@ -127,6 +128,12 @@ module Libfchat
     # Respond to keepalive ping messages
     def got_PIN(message)
       self.send('PIN')
+    end
+
+    ##
+    # Know thyself
+    def got_IDN(message)
+      @me = message['character']
     end
 
     ##
