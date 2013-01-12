@@ -5,6 +5,12 @@ libfchat-ruby
 
 A library for connecting to F-chat ( http://f-list.net ), written in Ruby.
 
+Requirements
+============
+
+This library requires ruby 1.9.2, 1.9.3, or jruby in 1.9 mode
+It is tested against  ruby 1.9.3, and integration tests are run against all of the above, but are not guaranteed to work.
+
 Tutorial
 ========
 This gem is designed to make it easy to build a bot via the magic of open
@@ -51,18 +57,25 @@ FAQ
 ===
 
 Q. Where can I learn Ruby?
+
 A. Google it. I recommend Ruby Koans, along with some tutorials.
 
+
 Q. Can you write a bot for me?
+
 A. No.
 
+
 Q. I found a bug...
+
 A. Please leave me a ticket at https://github.com/jippen/libfchat-ruby/issues 
 describing the bug, how to trigger it, and what you expected to happen.
 
 Q. I added an awesome feature, do you want it?
+
 A. Probably. Send me a pull request, and if it fits, I'll gladly put it in!
 
-Q. When's it going to be done?
-A. Silence, child, or I'll pull this thing around and we'll go back home!
 
+Q. When's it going to be done?
+
+A. Silence, child, or I'll pull this thing around and we'll go back home!
