@@ -5,7 +5,7 @@ describe ::Libfchat::Fchat do
     @bot_desc = 'Libfchat testbot by Jippen Faddoul (https://github.com/jippen/libfchat-ruby)'
     @bot_version = '1.0'
     @fchat = ::Libfchat::Fchat.new(@bot_desc, @bot_version)
-    @fchat.spam = false
+    @fchat.logger.level = Logger::FATAL
   end
 
   it "takes no parameters and returns a Fchat object" do
@@ -13,6 +13,21 @@ describe ::Libfchat::Fchat do
   end
 
   describe "get_ADL" do
+    it "parses correctly" do
+      data = 'ADL {"ops":["Hiro","Aniko","King Mercy","Hexxy","Glitter","Feath","Becca Greene","Chromatic","Lothar","Sea","Lambeth","Susannah","R B Nicci","Lurue","Neige","Natsudra","Robert Grayson","Melly Mildri","Bastogne","Rebbi"]}'
+      @fchat.parse_message(data)
+      @fchat.ops.include?("Lothar").should be_true
+    end
+
+    it "should find people case-insensitively" do
+      data = 'ADL {"ops":["Hiro","Aniko","King Mercy","Hexxy","Glitter","Feath","Becca Greene","Chromatic","Lothar","Sea","Lambeth","Susannah","R B Nicci","Lurue","Neige","Natsudra","Robert Grayson","Melly Mildri","Bastogne","Rebbi"]}'
+      @fchat.parse_message(data)
+      @fchat.ops.any?{ |s| s.casecmp("lothar")==0}.should be_true
+      @fchat.ops.any?{ |s| s.casecmp("LOTHAR")==0}.should be_true
+    end
+
+
+
   end
 
   describe "get_AOP" do

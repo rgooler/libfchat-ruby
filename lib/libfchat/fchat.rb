@@ -9,11 +9,12 @@ module Libfchat
   require 'multi_json'
   require 'faye/websocket'
   require 'eventmachine'
+  require 'logger'
+  require 'insensitive_hash/minimal'
   require 'libfchat/version'
   require 'libfchat/webapi'
   
   class Fchat
-    attr_accessor :spam
     attr_reader :ticket
     attr_accessor :websocket
 
@@ -33,17 +34,19 @@ module Libfchat
     attr_accessor :ops
     attr_accessor :users
     attr_accessor :rooms
+    attr_accessor :logger
 
     ##
     # Initialize the object with the name and version. 
     # Default to just identifying as the library
 
-    def initialize(clientname="libfchat-ruby by Jippen Faddoul ( http://github.com/jippen/libfchat-ruby )",version=Libfchat::VERSION)
+    def initialize(clientname="libfchat-ruby by Jippen Faddoul ( http://github.com/jippen/libfchat-ruby )",version=Libfchat::VERSION, level=Logger::DEBUG)
       @clientname = clientname
       @version = version
-      @users = Hash.new
-      @rooms = Hash.new
-      @spam = true
+      @users = InsensitiveHash.new
+      @rooms = InsensitiveHash.new
+      @logger = Logger.new(STDOUT)
+      @logger.level = level
     end
 
     ##
@@ -69,10 +72,7 @@ module Libfchat
         data = MultiJson.load('{}')
       end
 
-      # Output if spamminess is enabled
-      if @spam
-        puts "<< #{msg}"
-      end
+      @logger.debug("<< #{msg}")
 
       begin
         self.send("got_#{type}",data)
@@ -86,6 +86,7 @@ module Libfchat
     def login(server,account,password,character,timeout=30)
       webapi = Libfchat::WebAPI.new
       @ticket = webapi.get_ticket(account,password)
+      @me = character
 
       EM.run {
         @websocket = Faye::WebSocket::Client.new(server)
@@ -110,13 +111,11 @@ module Libfchat
     def send_message(type, json)
       jsonstr = ::MultiJson.dump(json)
       msg = "#{type} #{jsonstr}"
-      if @spam
-        if type == 'IDN'
-          json[:ticket] = '[REDACTED]'
-        end
-        filteredjsonstr = ::MultiJson.dump(json)
-        puts ">> #{type} #{filteredjsonstr}"
+      if type == 'IDN'
+        json[:ticket] = '[REDACTED]'
       end
+      filteredjsonstr = ::MultiJson.dump(json)
+      @logger.debug(">> #{type} #{filteredjsonstr}")
       @websocket.send(msg)
     end
 
