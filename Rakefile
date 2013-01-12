@@ -3,12 +3,12 @@ lib = File.expand_path('../lib/', __FILE__)
 $:.unshift lib unless $:.include?(lib)
 
 require 'rake'
-require 'rake/testtask'
+require 'rspec/core/rake_task'
 require 'libfchat/version'
 
 task :default => :test
 
-task :test => [:test_all]
+task :test => [:spec]
 
 desc "build gem package"
 task :build do
@@ -23,8 +23,7 @@ task :release => :build do
     sh 'mv *.gem pkg/'
 end
 
-Rake::TestTask.new(:test_all) do |t|
-  t.libs << "test"
-  t.test_files = FileList['test/webapi_test.rb','test/fchat_test.rb']
-  t.verbose = true
+RSpec::Core::RakeTask.new do |t|
+  t.ruby_opts = '-w'
+  t.rspec_opts = '--color --format nested'
 end

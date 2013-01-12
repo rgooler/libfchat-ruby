@@ -238,12 +238,6 @@ module Libfchat
     end
 
     ##
-    # Handle user joining chatroom
-    def got_LCH(message)
-      @rooms[message['channel']]['characters'].delete(message['character'])
-    end
-
-    ##
     # Handle user leaving chatroom
     def got_LCH(message)
       @rooms[message['channel']]['characters'].delete(message['character'])
@@ -327,9 +321,10 @@ module Libfchat
     # channel description.
     #
     # *This command requires channel op or higher.*
-    def CCR(channel)
-      json = {:channel => channel}
-      self.send_message('CCR',json)
+    def CDS(channel, description)
+      json = {:channel => channel,
+              :description => description}
+      self.send_message('CDS',json)
     end
 
     ##
@@ -368,9 +363,9 @@ module Libfchat
 
     ##
     # Request a list of channel ops
-    def COA(channel)
+    def COL(channel)
       json = {:channel => channel }
-      self.send_message('CKU',json)
+      self.send_message('COL',json)
     end
 
     ##

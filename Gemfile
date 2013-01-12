@@ -5,7 +5,8 @@ gem 'faye-websocket', '~> 0.4.6'
 
 group :test do
     gem 'rake'
-    gem 'turn', '~> 0.9.5'
-    gem 'minitest'
-    gem 'facets'
+    gem 'turn', '~> 0.9.5' #depricated
+    gem 'minitest' #depricated
+    gem 'facets' #depricated
+    gem 'rspec'
 end
