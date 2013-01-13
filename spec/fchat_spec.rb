@@ -84,6 +84,17 @@ describe ::Libfchat::Fchat do
   end
 
   describe "get_NLN" do
+    it "can tell that a user logged in" do
+      data = 'NLN {"identity":"testguy","gender":"male","status":"online"}'
+      @fchat.parse_message(data)     
+      @fchat.users.should include('testguy')
+    end
+    
+    it "can identify a user's status" do
+      data = 'NLN {"identity":"testguy","gender":"male","status":"online"}'
+      @fchat.parse_message(data)     
+      @fchat.users['testguy']['status'].should == "online"
+    end
   end
 
   describe "get_IGN" do
