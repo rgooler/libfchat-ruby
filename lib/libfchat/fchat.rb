@@ -13,10 +13,11 @@ module Libfchat
   require 'insensitive_hash/minimal'
   require 'libfchat/version'
   require 'libfchat/webapi'
+  require 'pp'
   
   class Fchat
     attr_reader :ticket
-    attr_accessor :websocket
+    attr_reader :websocket
 
     attr_reader :version
     attr_reader :clientname
@@ -29,11 +30,11 @@ module Libfchat
     attr_reader :msg_flood
     attr_reader :permissions
 
-    attr_accessor :friends
-    attr_accessor :ignore
-    attr_accessor :ops
-    attr_accessor :users
-    attr_accessor :rooms
+    attr_reader :friends
+    attr_reader :ignore
+    attr_reader :ops
+    attr_reader :users
+    attr_reader :rooms
     attr_accessor :logger
 
     ##
@@ -127,6 +128,7 @@ module Libfchat
     # Respond to keepalive ping messages
     def got_PIN(message)
       self.send('PIN')
+      puts @users
     end
 
     ##

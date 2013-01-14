@@ -1,0 +1,4 @@
+server: ws://chat.f-list.net:9722
+username: bot_user
+password: password
+character: awesomebot
