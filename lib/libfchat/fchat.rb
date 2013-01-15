@@ -128,7 +128,6 @@ module Libfchat
     # Respond to keepalive ping messages
     def got_PIN(message)
       self.send('PIN')
-      puts @users
     end
 
     ##
@@ -255,6 +254,14 @@ module Libfchat
     # Store description for newly joined chatroom
     def got_CDS(message)
       @rooms[message['channel']]['description'] = message['description']
+    end
+
+    # Join chatrooms on invite
+    def got_CIU(message)
+      #Annoyingly, the json for this varies for public and private rooms.
+      #So just try both and call it a day.
+      self.send('JCH',message['name'])
+      self.send('JCH',message['channel'])
     end
 
     ##
