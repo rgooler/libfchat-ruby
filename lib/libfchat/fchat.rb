@@ -606,5 +606,12 @@ module Libfchat
       self.send_message('UBN',json)
     end
 
+    ##
+    # Remove useless properties from to_yaml conversion
+    def to_yaml_properties
+      super - ["@logger", "@users", "@rooms"]
+    end
+
+
   end #End of class
 end #End of namespace
