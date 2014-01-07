@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/jippen/libfchat-ruby.png?branch=master)](http://travis-ci.org/jippen/libfchat-ruby)
+[![Build Status](https://travis-ci.org/rgooler/libfchat-ruby.png?branch=master)](https://travis-ci.org/rgooler/libfchat-ruby)
 
 libfchat-ruby
 =============
