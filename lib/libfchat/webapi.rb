@@ -11,7 +11,7 @@ module Libfchat
     attr_reader :ticket
 
     def get_ticket(account,password)
-      uri = URI('http://www.f-list.net/json/getApiTicket.php')
+      uri = URI('https://www.f-list.net/json/getApiTicket.php')
       res = Net::HTTP.post_form(uri,
                                 'account' => account,
                                 'password' => password)

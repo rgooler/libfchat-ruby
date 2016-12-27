@@ -18,8 +18,8 @@ Gem::Specification.new do |s|
   s.license         = 'MIT'
   s.require_path    = 'lib'
 
-  s.add_development_dependency('turn','~> 0.9.5')
-  s.add_development_dependency('miniunit','~> 1.2.1')
-  s.add_runtime_dependency('multi_json','~> 1.3.6')
-  s.add_runtime_dependency('faye-websocket','~> 0.4.6')
+  s.add_development_dependency('turn')
+  s.add_development_dependency('miniunit')
+  s.add_runtime_dependency('multi_json')
+  s.add_runtime_dependency('faye-websocket')
 end
