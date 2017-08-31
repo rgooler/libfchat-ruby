@@ -86,7 +86,7 @@ module Libfchat
 
     def login(server,account,password,character,timeout=30)
       webapi = Libfchat::WebAPI.new
-      @ticket = webapi.getApiTicket(account,password)
+      @ticket = webapi.getApiTicket(account, password)
       @me = character
 
       EM.run {
