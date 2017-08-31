@@ -7,7 +7,7 @@ require 'libfchat/version'
 Gem::Specification.new do |s|
   s.name            = 'libfchat'
   s.version         = Libfchat::VERSION
-  s.date            = '2012-06-25'
+  s.date            = '2017-07-31'
   s.summary         = "A library for connection to F-chat"
   s.description     = "A library for connecting to F-chat ( http://f-list.net )"
   s.authors         = ["Ryan Gooler"]

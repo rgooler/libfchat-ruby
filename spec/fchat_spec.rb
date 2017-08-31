@@ -30,7 +30,7 @@ describe ::Libfchat::Fchat do
   end
 
   it "takes no parameters and returns a Fchat object" do
-    @fchat.should be_an_instance_of ::Libfchat::Fchat
+    expect(@fchat).to be_an_instance_of ::Libfchat::Fchat
   end
 
   describe "get_ADL" do
@@ -38,7 +38,7 @@ describe ::Libfchat::Fchat do
     it "parses correctly" do
       data = 'ADL {"ops":["Hiro","Aniko","King Mercy","Hexxy","TestUser_1209","Feath","Becca Greene","TestUser_1206","Lothar","TestUser_880","Lambeth","Susannah","R B Nicci","TestUser_487","Neige","Natsudra","Robert Grayson","Melly Mildri","Bastogne","Rebbi"]}'
       @fchat.parse_message(data)
-      @fchat.ops.include?("Aniko").should be_true
+      expect(@fchat.ops.include?("Aniko")).to be_truthy
     end
 
   end
@@ -76,8 +76,8 @@ describe ::Libfchat::Fchat do
       load_user_list()
       data = 'FLN {"character":"TestUser_1500"}'
       @fchat.parse_message(data)
-      @fchat.users.should_not include('TestUser_1500')
-      @fchat.users.should include('TestUser_1331')
+      expect(@fchat.users.include?('TestUser_1500')).to be_falsy
+      expect(@fchat.users.include?('TestUser_1331')).to be_truthy
     end
   end
 
@@ -91,7 +91,7 @@ describe ::Libfchat::Fchat do
     it "knows its own identity" do
       data = 'IDN {"character":"Testbot"}'
       @fchat.parse_message(data)
-      @fchat.me.should == 'Testbot'
+      expect(@fchat.me).to eq('Testbot')
     end
   end
 
@@ -109,19 +109,19 @@ describe ::Libfchat::Fchat do
     it "Can parse an empty list of characters" do
       data = 'LIS {"characters":[]}'
       @fchat.parse_message(data)
-      @fchat.users.should == {}
+      expect(@fchat.users).to eq({})
     end
 
     it "Can parse a single block of characters" do
       @fchat.parse_message(%q@LIS {"characters":[["TestUser_1","Male","online",""],["TestUser_2","Female","away","Can't take it anymore. Going to bed."],["TestUser_3","Male","online",""],["TestUser_4","Male","away","Zzzzzz"],["TestUser_5","Female","online",""],["TestUser_6","None","busy","Getting the D from a sexy TestUser_11 and hot Tiefling. Yes, Noah. Heat that oven good~"],["TestUser_7","Female","looking","Looking for a male to serve~"],["TestUser_8","Female","online",""],["TestUser_9","Male","away","Sleeping or nerding out over Dark Angels"],["TestUser_10","Male","online",""],["TestUser_11","Male","busy","Head wedged between Sweet's thighs, brb."],["TestUser_12","Female","looking","Horny, my pussy needs attention as do my feet."],["TestUser_13","Female","online",""],["TestUser_14","Transgender","looking","[color=green]Human femboy looking to be a normal man's 'woman' for a cute RP, but I wouldn't mind playing with another femboy![/color]"],["TestUser_15","Herm","online",""],["TestUser_16","Male","online",""],["TestUser_17","Male","online",""],["TestUser_18","Male","looking","You've had enough of two hand touch, you want it rough. "],["TestUser_19","Female","online",""],["TestUser_20","Herm","away","Sleeps"],["TestUser_21","Male","online",""],["TestUser_22","Female","online",""],["TestUser_23","Female","online",""],["TestUser_24","Male","online",""],["TestUser_25","Female","online",""],["TestUser_26","Female","looking",""],["TestUser_27","Male","dnd","Napping. Only Kadaj, Eli, Katsu and Sai can bug me right now. "],["TestUser_28","Female","away",""],["TestUser_29","Male","online",""],["TestUser_30","Female","online",""],["TestUser_31","Male","online",""],["TestUser_32","Cunt-boy","online",""],["TestUser_33","Female","online",""],["TestUser_34","Female","looking",""],["TestUser_35","Male-Herm","online",""],["TestUser_36","Male","looking",""],["TestUser_37","Female","online",""],["TestUser_38","Male","busy",""],["TestUser_39","Male","online",""],["TestUser_40","Female","online",""],["TestUser_41","Male","online",""],["TestUser_42","Female","online",""],["TestUser_43","Transgender","looking","In a strange mood for a very naughty diaper play."],["TestUser_44","Male","online",""],["TestUser_45","Female","online",""],["TestUser_46","Female","online",""],["TestUser_47","Female","online",""],["TestUser_48","Female","online",""],["TestUser_49","Female","online",""],["TestUser_50","Male","online",""],["TestUser_51","Female","online",""],["TestUser_52","Male","online",""],["TestUser_53","Male","online",""],["TestUser_54","Male","looking","Looking for some kiddies to make some movies"],["TestUser_55","Herm","online",""],["TestUser_56","Female","online",""],["TestUser_57","Male","online",""],["TestUser_58","Male","looking",""],["TestUser_59","Female","online",""],["TestUser_60","None","dnd","ratzefatz~ *schnarch*"],["TestUser_61","Male","looking","Cheetah that feels awfully submissive tonight, is looking for a hung partner (Preferably anthro, but anything goes!) Breeding, Excessive cum, Cum inflation.. Are but a few of many naughty kinks this eager feline likes. PM me if you fancy some butt!"],["TestUser_62","Female","online",""],["TestUser_63","Female","online",""],["TestUser_64","Male","online",""],["TestUser_65","Female","online",""],["TestUser_66","Female","online",""],["TestUser_67","Female","online",""],["TestUser_68","None","dnd",""],["TestUser_69","Female","online",""],["TestUser_70","Female","away","ZzzZzzZzz"],["TestUser_71","Female","looking",""],["TestUser_72","Male","online",""],["TestUser_73","Female","looking","you find the big mare fast asleep in her bedroom. what do you do? (cheak the custom kink for details on this)"],["TestUser_74","Male","online",""],["TestUser_75","Male","online",""],["TestUser_76","Female","online","I need warm. :c"],["TestUser_77","Herm","looking",""],["TestUser_78","Male","online",""],["TestUser_79","Male","away","Gave up and went to bed, back tomorrow after dogs to vet"],["TestUser_80","Herm","online",""],["TestUser_81","Male","looking","Welcome to [session=Dream Land]ADH-301c3791840f9d9da691[/session]  (On the lookout for others who might be willing to play some characters from the Kirby series for some RP ideas. Welcome chat or rp from others too)"],["TestUser_82","Male","online",""],["TestUser_83","Female","looking",""],["TestUser_84","Shemale","online",""],["TestUser_85","Male","online",""],["TestUser_86","Shemale","online",""],["TestUser_87","Male","looking","Kinky coyote wanting to try something interesting tonight..."],["TestUser_88","Shemale","busy","AWWWWWWWWWWWWWWWWWW"],["TestUser_89","Female","looking",""],["TestUser_90","Male","away",""],["TestUser_91","Herm","online",""],["TestUser_92","Female","online",""],["TestUser_93","Male","online",""],["TestUser_94","Female","online",""],["TestUser_95","Male","online","[url=http://www.youtube.com/watch?v=gA9kUMndxc8]Current Music of the Mind![/url]"],["TestUser_96","Male","online",""],["TestUser_97","Male","busy","Playing BL2, I may not be responsive."],["TestUser_98","Female","online",""],["TestUser_99","Male","looking",""],["TestUser_100","Male","online",""]]}@)
-      @fchat.users.should include('TestUser_100')
+      expect(@fchat.users.include?('TestUser_100')).to be_truthy
     end
 
     it "Can parse a full block of characters" do
       load_user_list()
-      @fchat.users.should include('TestUser_100')
-      @fchat.users.should include('TestUser_1331')
-      @fchat.users.length.should == 1434
+      expect(@fchat.users.include?('TestUser_100')).to be_truthy
+      expect(@fchat.users.include?('TestUser_1331')).to be_truthy
+      expect(@fchat.users.length).to eq(1434)
     end
 
   end
@@ -134,13 +134,13 @@ describe ::Libfchat::Fchat do
     it "can tell that a user logged in" do
       data = 'NLN {"status":"online","gender":"None","identity":"Testbot"}'
       @fchat.parse_message(data)
-      @fchat.users.should include('Testbot')
+      expect(@fchat.users.include?('Testbot')).to be_truthy
     end
 
     it "can identify a user's status" do
       data = 'NLN {"status":"online","gender":"None","identity":"Testbot"}'
       @fchat.parse_message(data)
-      @fchat.users['Testbot']['status'].should == "online"
+      expect(@fchat.users['Testbot']['status']).to eq("online")
     end
   end
 
@@ -184,37 +184,37 @@ describe ::Libfchat::Fchat do
     it "correctly stores chat_max variable received from server" do
       data = 'VAR {"value":4096,"variable":"chat_max"}'
       @fchat.parse_message(data)
-      @fchat.chat_max.should == 4096
+      expect(@fchat.chat_max).to eq(4096)
     end
 
     it "correctly stores priv_max variable received from server" do
       data = 'VAR {"value":50000,"variable":"priv_max"}'
       @fchat.parse_message(data)
-      @fchat.priv_max.should == 50000
+      expect(@fchat.priv_max).to eq(50000)
     end
 
     it "correctly stores lfrp_max variable received from server" do
       data = 'VAR {"value":50000,"variable":"lfrp_max"}'
       @fchat.parse_message(data)
-      @fchat.lfrp_max.should == 50000
+      expect(@fchat.lfrp_max).to eq(50000)
     end
 
     it "correctly stores lfrp_flood variable received from server" do
       data = 'VAR {"value":600,"variable":"lfrp_flood"}'
       @fchat.parse_message(data)
-      @fchat.lfrp_flood.should == 600
+      expect(@fchat.lfrp_flood).to eq(600)
     end
 
     it "correctly stores msg_flood variable received from server" do
       data = 'VAR {"value":0.5,"variable":"msg_flood"}'
       @fchat.parse_message(data)
-      @fchat.msg_flood.should == 0.5
+      expect(@fchat.msg_flood).to eq(0.5)
     end
 
     it "correctly stores permissions variable received from server" do
       data = 'VAR {"value":0,"variable":"permissions"}'
       @fchat.parse_message(data)
-      @fchat.permissions.should == 0
+      expect(@fchat.permissions).to eq(0)
     end
 
   end

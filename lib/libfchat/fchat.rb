@@ -14,7 +14,7 @@ module Libfchat
   require 'libfchat/version'
   require 'libfchat/webapi'
   require 'pp'
-  
+
   class Fchat
     attr_reader :ticket
     attr_reader :websocket
@@ -22,7 +22,7 @@ module Libfchat
     attr_reader :version
     attr_reader :clientname
     attr_reader :me
-    
+
     attr_reader :chat_max
     attr_reader :priv_max
     attr_reader :lfrp_max
@@ -38,7 +38,7 @@ module Libfchat
     attr_accessor :logger
 
     ##
-    # Initialize the object with the name and version. 
+    # Initialize the object with the name and version.
     # Default to just identifying as the library
 
     def initialize(clientname="libfchat-ruby by Jippen Faddoul ( http://github.com/jippen/libfchat-ruby )",version=Libfchat::VERSION, level=Logger::DEBUG)
@@ -86,7 +86,7 @@ module Libfchat
 
     def login(server,account,password,character,timeout=30)
       webapi = Libfchat::WebAPI.new
-      @ticket = webapi.get_ticket(account,password)
+      @ticket = webapi.getApiTicket(account,password)
       @me = character
 
       EM.run {
@@ -123,7 +123,7 @@ module Libfchat
     # ====================================================== #
     #               Always respond to these                  #
     # ====================================================== #
-    
+
     ##
     # Respond to keepalive ping messages
     def got_PIN(message)
@@ -155,7 +155,7 @@ module Libfchat
         raise "ERROR: Do not know how to handle VAR #{message}"
       end
     end
-    
+
     ##
     # Store list of ops
     def got_ADL(message)
@@ -195,7 +195,7 @@ module Libfchat
           'message' => ""
         }
     end
- 
+
     ##
     # Handle user changing status
     def got_STA(message)
@@ -205,7 +205,7 @@ module Libfchat
           'message' => message['statusmsg']
         }
     end
- 
+
     ##
     # Handle user logging off
     def got_FLN(message)
@@ -214,7 +214,7 @@ module Libfchat
         room['characters'].delete(message['character'])
       end
     end
- 
+
     ##
     # Store data about newly joined chatroom
     def got_JCH(message)
@@ -271,7 +271,7 @@ module Libfchat
     # ====================================================== #
 
     ##
-    # Performs an account ban against a characters account. 
+    # Performs an account ban against a characters account.
     #
     # *This command requires chat op or higher.*
     def ACB(character)
@@ -332,7 +332,7 @@ module Libfchat
     end
 
     ##
-    # This command is used by an admin or channel owner to set a new 
+    # This command is used by an admin or channel owner to set a new
     # channel description.
     #
     # *This command requires channel op or higher.*
@@ -533,7 +533,7 @@ module Libfchat
     end
 
     ##
-    # Advertises the first open private channel owned by the client 
+    # Advertises the first open private channel owned by the client
     # in the given channel
     def RAN(channel)
       json = {:channel => channel }

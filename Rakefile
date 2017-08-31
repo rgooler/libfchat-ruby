@@ -25,5 +25,5 @@ end
 
 RSpec::Core::RakeTask.new do |t|
   t.ruby_opts = '-w'
-  t.rspec_opts = '--color --format nested'
+  t.rspec_opts = '--color --format documentation'
 end

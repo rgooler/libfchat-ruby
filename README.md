@@ -8,8 +8,7 @@ A library for connecting to F-chat ( http://f-list.net ), written in Ruby.
 Requirements
 ============
 
-This library requires ruby 1.9.2, 1.9.3, or jruby in 1.9 mode
-It is tested against  ruby 1.9.3, and integration tests are run against all of the above, but are not guaranteed to work.
+Ruby 2.4.1
 
 Tutorial
 ========
