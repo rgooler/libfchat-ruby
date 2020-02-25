@@ -5,6 +5,6 @@ gem 'faye-websocket'
 gem 'insensitive_hash'
 
 group :test do
-    gem 'rake'
+    gem 'rake', '>= 12.3.3'
     gem 'rspec'
 end
